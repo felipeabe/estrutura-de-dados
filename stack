@@ -1,73 +1,100 @@
-class Node:
-    def __init__(self, data=None, next=None):
-        self.data=data
-        self.next=next
-
 class Queue:
-
-    def __init__(self):
-        self.first=None
-        self.last=None
-        self.size=0
-
-    def push(self, elem):
-        node= Node(elem)
-        if self.last is None:
-            self.last=node
-
-        else:
-            self.last.next=node
-            self.last=node
-
-        if self.first is None:
-            self.first=node
-        self.size+=1
-
-    def pop(self):
-        if self.size>0:
-            self.first=self.first.next
-            self.size-=1
-        else:
-            return IndexError
-
-    def size(self):
-        return self.size
+    def __init__(self, max_size):
+        self.__items = [None]*(max_size + 1)
+        self.__first = 0
+        self.__last = 0
 
     def is_empty(self):
-        if self.size==0:
-            return True
-        else:
-            return False
+        return self.__first == self.__last
+
+    def is_full(self):
+        return (self.__last + 1) % len(self.__items) == self.__first
+
+    def push(self, item):
+        if self.is_full():
+            raise Exception("Queue is full")
+        self.__items[self.__last] = item
+        self.__last = (self.__last + 1) % len(self.__items)
+
+    def pop(self):
+        if self.is_empty():
+            raise Exception("Queue is empty")
+        item = self.__items[self.__first]
+        self.__first = (self.__first + 1) % len(self.__items)
+        return item
 
 
-    def imprime(self):
-        pointer = self.first
-        for c in range(self.size):
-            print(pointer.data)
-            pointer = pointer.next
+def get_distances(A, x):
+    '''Compute distances between x and every city
+    in the distance matrix A'''
+    n = len(A)
+    dist = [-1]*n
+    q = Queue(n)
+
+    dist[x] = 0
+    q.push(x)
+    while(not q.is_empty()):
+        y = q.pop()
+        print(f'y: {y}')
+        for i in range(n):
+    
+            if A[y][i] == 1 and dist[i] == -1:
+                dist[i] = dist[y] + 1
+                q.push(i)
+    return dist
+
+A = [
+    [0, 0, 1, 1, 1, 0],
+    [0, 0, 0, 0, 0, 1],
+    [0, 1, 0, 0, 1, 0],
+    [0, 0, 0, 0, 1, 1],
+    [0, 1, 0, 0, 0, 1],
+    [0, 1, 0, 0, 0, 0]
+]
+B = [
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+]
+
+start = B[3][3]
+end=B[7][2]
+
+dist = get_distances(A, start)
+print(dist)
 
 
-# def get_distances(A, x):
-#      n = len(A)
-#      dist = [-1]*n
-#      q = Queue()
-#      dist[x] = 0
-#      q.push(x)
-#      while(not q.is_empty()):
-#          y = q.pop()
-#          for i in range(n):
-#              if A[y][i] == 1 and dist[i] == -1:
-#                  dist[i] = dist[y] + 1
-#                  q.push(i)
-#      return dist
-#     A = [
-#      [0, 0, 1, 1, 1, 0],
-#      [0, 0, 0, 0, 0, 1],
-#      [0, 1, 0, 0, 1, 0],
-#      [0, 0, 0, 0, 1, 1],
-#      [0, 1, 0, 0, 0, 1],
-#      [0, 1, 0, 0, 0, 0]
-#     ]
-# start_node = 0
-# dist = get_distances(A, start_node)
-# print(dist)
+
+moves=[
+      [-1,-2],
+      [1,-2],
+      [2,-1],
+      [2,1],
+       [1,2],
+       [-1,2],
+       [-2,1],
+       [-2,-1]
+      ]
+
+pos=[3,3]
+
+for n in moves:
+ 
+    pos_destino=[pos[0]+n[0], pos[1]+n[1]]
+    B[pos_destino[0]][pos_destino[1]]+=1
+    print(pos_destino)
+
+    x=pos_destino[2]
+    y= pos_destino[1]
+    print(f'y: {y}')
+    print(f'x: {x}')
+
+
+for linha in B:
+    print(linha)
+
