@@ -49,3 +49,53 @@ def root():
     return raiz
 
 print(root())
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+expressao=input()
+
+def root(expressao):
+    lista = []
+    dict = {}
+    listaindices = []
+    for item in expressao:
+        lista.append(item)
+
+    for indice, item in enumerate(lista):
+        if item == "-" or item == "+":
+            dict[indice] = item
+
+    for key in dict.keys():
+        listaindices.append(key)
+    if len(listaindices)==0:
+        return expressao[-2]
+    indiceraiz = max(listaindices)
+    raiz = dict[indiceraiz]
+    return raiz
+
+print(root(expressao))
+
+def filho_esquerdo(expressao):
+    raiz=root(expressao)
+    for c in range(3):
+        print(raiz)
+        filho=[]
+        for indice,item in enumerate(expressao[::-1]):
+            if item==root(expressao):
+                indiceesq=(abs(indice-len(expressao)+1))
+        filho=(expressao[0:indiceesq])
+        raiz=root(filho)
+        print(raiz)
+    
+    
+def filho_direito(expressao):
+    for indice,item in enumerate(expressao[::-1]):
+        if item==root(expressao):
+            indiceesq=(abs(indice-len(expressao)+1))
+    print("parte direita")
+    print(expressao[indiceesq+1:len(expressao)])
+
+
+
+filho_esquerdo(expressao)
