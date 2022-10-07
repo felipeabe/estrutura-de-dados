@@ -1,0 +1,51 @@
+lista=[]
+dict={}
+listaindices=[]
+#A*B+B-C/A*B
+string=input()
+for item in string:
+    lista.append(item)
+
+for indice, item in enumerate(lista):
+    if item=="-" or item=="+":
+        dict[indice]=item
+
+for key in dict.keys():
+    listaindices.append(key)
+indiceraiz=max(listaindices)
+raiz=dict[indiceraiz]
+print(raiz)
+
+if abs(indiceraiz-len(string))<=2:
+    print('bogus')
+
+direita=len(string)-indiceraiz-1
+esquerda=len(string)-direita-1
+print(f"direita: {direita}")
+print(f"esquerda: {esquerda}")
+
+for c in range(esquerda):
+    print(lista[c])
+print("------raiz-------")
+for c in range(direita+1, len(string)):
+    print(lista[c])
+
+def root():
+    lista = []
+    dict = {}
+    listaindices = []
+    string = input()
+    for item in string:
+        lista.append(item)
+
+    for indice, item in enumerate(lista):
+        if item == "-" or item == "+":
+            dict[indice] = item
+
+    for key in dict.keys():
+        listaindices.append(key)
+    indiceraiz = max(listaindices)
+    raiz = dict[indiceraiz]
+    return raiz
+
+print(root())
